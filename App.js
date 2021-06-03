@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import RegisterScreen from './Screens/RegisterScreen';
 import {createStackNavigator} from '@react-navigation/stack';
+import ChatScreen from './Screens/ChatScreen';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ export default function App() {
         <StatusBar style="auto" />
         <Stack.Navigator>
           <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} />
         </Stack.Navigator>
       </View>
     </NavigationContainer>

@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { View, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
-// import {auth} from '../firebase';
+import {auth} from '../firebase';
 
 const RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState("");
