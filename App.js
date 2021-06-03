@@ -3,8 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import AddChatScreen from './screens/AddChatScreen';
 
-const stack=createStackNavigator();
+const Stack=createStackNavigator();
 
 const globalScreenOptions={
   headerStyle: { backgroundColor: "#2C6BED" },
@@ -14,9 +16,9 @@ const globalScreenOptions={
 
 export default function App() {
   return (
-    <NavigationContainer>
+      <NavigationContainer>
       <Stack.Navigator screenOptions={globalScreenOptions}>
-      <stack.Screen name="Add Chat" component={} />
+      <Stack.Screen name="AddChat" component={AddChatScreen} />
       </Stack.Navigator>     
     </NavigationContainer>
     
