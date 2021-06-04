@@ -4,8 +4,10 @@ import { ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import firebase from 'firebase';
 import { db, auth } from '../firebase';
 import { useLayoutEffect } from 'react';
+import { Avatar } from 'react-native-elements/dist/avatar/Avatar';
 
 const AddChatScreen = ({ navigation, route }) => {
     const [input, setInput] = useState("");
@@ -22,14 +24,14 @@ const AddChatScreen = ({ navigation, route }) => {
                         alignItems: "center",
                     }}
                 >
-                    <Avatar rounded source={{ uri: messages[0]?.data.photoURL || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png", }} />
+                    <Avatar rounded source={{ uri: messages[0]?.data.photoURL || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" }} />
                     <Text
                         style={{ color: "white", marginLeft: 10, fontWeight: "700" }}
                     >{route.params.chatName}</Text>
                 </View>
             ),
             headerLeft: () => (
-                <TouchableOpacity>
+                <TouchableOpacity style={{marginLeft: 10}} onPress={navigation.goBack} >
                     <AntDesign name="arrowleft" size={24} color="white" />
                 </TouchableOpacity>
             ),
@@ -37,7 +39,7 @@ const AddChatScreen = ({ navigation, route }) => {
                 <View
                     style={{
                         flexDirection: "row",
-                        justufyContent: "space-between",
+                        justifyContent: "space-between",
                         width: 80,
                         marginRight: 20,
                     }}
@@ -60,13 +62,13 @@ const AddChatScreen = ({ navigation, route }) => {
             message: input,
             displayName: auth.currentUser.displayName,
             email: auth.currentUser.email,
-            photoURL: auth.current.photoURL
+            photoURL: auth.currentUser.photoURL
         })
-        setInput('')
+        setInput("");
     }
 
     useLayoutEffect(() => {
-        const unsubscribe = db.collection('chats').doc(route.params.id).collection('messages').orderBy('timestamp', 'desc').onSnapshot((snapshot) => setMessages(
+        const unsubscribe = db.collection('chats').doc(route.params.id).collection('messages').orderBy('timestamp', 'asc').onSnapshot((snapshot) => setMessages(
             snapshot.docs.map((doc) => ({
                 id: doc.id,
                 data: doc.data(),
@@ -101,19 +103,19 @@ const AddChatScreen = ({ navigation, route }) => {
                                         }}
                                         size={30}
                                         rounded
-                                        size={30}
                                         source={{uri: data.photoURL}} />
                                         <Text style={styles.receiverText}>{data.message}</Text>
                                     </View>
                                 ):(
-                                    <View style={styles.sender}>
+                                    <View key={id} style={styles.sender}>
                                         <Avatar
                                         position="absolute"
                                         containerStyle={{position: "absolute", bottom: -15, left: -5}}
                                         bottom={-15}
                                         left={-5}
                                         rounded
-                                        size={30}source={{uri: data.photoURL,}}
+                                        size={30} 
+                                        source={{uri: data.photoURL}}
                                          />
                                         <Text style={styles.senderText}>{data.message}</Text>
                                     </View>
@@ -122,10 +124,10 @@ const AddChatScreen = ({ navigation, route }) => {
                         </ScrollView>
                         <View style={styles.footer}>
                             <TextInput
-                                value={input.value} onChangeText={(text) => setInput(text)}
-                                onSubmitEditing={sendMessage} placeholder="Z Message" style={styles.textInput} />
+                                value={input} onChangeText={(text) => setInput(text)}
+                                onSubmitEditing={sendMessage} placeholder="Type Message" style={styles.textInput} />
                             <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
-                                <Ionicons name="send" size={24} color="#2B68E6" />
+                                <Ionicons name="send" size={24} color="#597d35" />
                             </TouchableOpacity>
                         </View>
                     </>
@@ -145,7 +147,7 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: "#ECECEC",
         alignSelf: "flex-end",
-        borderRadious: 20,
+        borderRadius: 20,
         marginRight: 15,
         marginBottom: 20,
         maxWidth: "80%",
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
     },
     sender:{
         padding: 15,
-        backgroundColor: "#2B68E6",
+        backgroundColor: "#597d35",
         alignSelf: "flex-start",
         borderRadius: 20,
         margin: 15,
@@ -163,7 +165,8 @@ const styles = StyleSheet.create({
     senderText: {
         color: "white",
         fontWeight: "500",
-        marginLeft: 10, fontWeightmarginBottom: 15,
+        marginLeft: 10, 
+        marginBottom: 15,
     },
     receiverText: {
         color: "black",
@@ -187,6 +190,7 @@ const styles = StyleSheet.create({
         height: 40,
         flex: 1,
         marginRight: 15,
+        borderColor: 'transparent',
         backgroundColor: "#ECECEC",
         borderWidth: 1,
         padding: 10,

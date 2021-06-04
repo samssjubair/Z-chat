@@ -47,6 +47,7 @@ const RegisterScreen = ({ navigation }) => {
                 <Input placeholder="Profile Picture URL (optional)" type="text" value={imageUrl} onChangeText={text => SetImageUrl(text)} onSubmitEditing={register} />
             </View>
             <Button
+                type="clear"
                 onPress={register}
                 raised
                 title="Register"

@@ -67,13 +67,21 @@ const HomeScreen = ({navigation}) => {
                 </View>
             )
         });
-    },[])
+    },[navigation]);
+
+    const enterChat=(id, chatName)=>{
+        navigation.navigate('Chat',{
+            id,
+            chatName,
+        })
+    }
+
     return (
         <SafeAreaView>
             <ScrollView style={styles.container}>
                 {
                     chats.map(({id,data: {chatName}})=>(
-                        <CustomListItem key={id} id={id} chatName={chatName} />
+                        <CustomListItem enterChat={enterChat} key={id} id={id} chatName={chatName} />
                         ))
                 }
                 
