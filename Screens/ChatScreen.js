@@ -5,6 +5,7 @@ import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { db, auth } from '../firebase';
+import { useLayoutEffect } from 'react';
 
 const AddChatScreen = ({ navigation, route }) => {
     const [input, setInput] = useState("");

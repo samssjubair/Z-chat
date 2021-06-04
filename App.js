@@ -4,7 +4,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import RegisterScreen from './Screens/RegisterScreen';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import ChatScreen from './Screens/ChatScreen';
 
 const Stack = createStackNavigator();
@@ -12,14 +12,18 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <Text>Hello World! I am making Z-Chat app</Text>
         <StatusBar style="auto" />
         <Stack.Navigator>
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen name="Chat" component={ChatScreen} />
         </Stack.Navigator>
-      </View>
+      </View> */}
+      <Stack.Navigator>
+      {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
+      <Stack.Screen name="Chat" component={ChatScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
