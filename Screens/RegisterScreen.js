@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState } from 'react'
 import { View, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
-import {auth} from '../firebase';
+import { auth } from '../firebase';
 
 const RegisterScreen = ({ navigation }) => {
     const [name, setName] = useState("");
@@ -19,8 +19,8 @@ const RegisterScreen = ({ navigation }) => {
     const register = () => {
         auth.createUserWithEmailAndPassword(email, password)
             .then(authUser => {
-                authUser.user.update({
-                    diaplayName: name,
+                authUser.user.updateProfile({  // problem here (solved)
+                    displayName: name,
                     photoURL: imageUrl || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
                 })
             })
