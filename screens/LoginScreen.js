@@ -14,14 +14,15 @@ const LoginScreen = ({ navigation }) => {
         const unsubscribe=auth.onAuthStateChanged((authUser)=>{
             console.log(authUser);
             if (authUser){
-                navigator.replace('Home')
+                navigation.replace('Home')
             }
-        })
+        });
         return unsubscribe;
-    }, [])
+    }, []);
 
     const signIn=()=>{
-        console.log("logged in")
+        auth.signInWithEmailAndPassword(email,password)
+        .catch((error) => alert(error));
     }
 
     return (
@@ -34,7 +35,7 @@ const LoginScreen = ({ navigation }) => {
             />
             <View style={styles.inputContainer}>
                 <Input placeholder="Email" autoFocus type="email" onChangeText={(text)=>setEmail(text)} />
-                <Input placeholder="Password" secureTextEntry type="password" onChangeText={(text)=>setPassword(text)} />
+                <Input placeholder="Password" onSubmitEditing={signIn} secureTextEntry type="password" onChangeText={(text)=>setPassword(text)} />
             </View>
             <Button containerStyle={styles.button} onPress={signIn} title="Login" />
             <Button onPress={()=>navigation.navigate('Register')} containerStyle={styles.button} type="outline" title="Register" />

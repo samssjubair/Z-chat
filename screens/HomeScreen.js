@@ -8,7 +8,32 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Avatar } from 'react-native-elements'
 import CustomListItem from '../components/CustomListItem'
 
+import { useState } from 'react'
+import { useEffect } from 'react'
+import { auth, db } from '../firebase'
+
 const HomeScreen = ({navigation}) => {
+    // console.log(auth.currentUser.photoURL);
+    const [chats, setChats]= useState([]);
+
+    const signOutUser = ()=>{
+        auth.signOut().then(()=>{
+            navigation.replace("Login");
+        });
+    }
+
+    useEffect(()=>{
+        const unsubscribe= db.collection('chats').onSnapshot((snapshot)=>
+            setChats(
+                snapshot.docs.map((doc)=>({
+                id: doc.id,
+                data: doc.data()
+            }))
+          )
+        );
+        return unsubscribe;
+    },[])
+
     useLayoutEffect(()=>{
         navigation.setOptions({
             title: "Z Chat",
@@ -17,9 +42,9 @@ const HomeScreen = ({navigation}) => {
             headerTintColor: 'black',
             headerLeft: ()=> 
             (<View style={{ marginLeft: 20}}>
-                <TouchableOpacity activeOpacity={0.5}>
+                <TouchableOpacity onPress={signOutUser} activeOpacity={0.5}>
                 <Avatar rounded source={{uri:
-                    'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'}}>
+                    auth?.currentUser?.photoURL}}>
                 </Avatar> 
                 </TouchableOpacity>
 
@@ -37,7 +62,7 @@ const HomeScreen = ({navigation}) => {
                         <AntDesign name="camerao" size={24} color="black"/>
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={0.5}>
-                        <SimpleLineIcons name="pencil" size={24} color="black"/>
+                        <SimpleLineIcons name="pencil" onPress={()=>navigation.navigate("AddChat")} size={24} color="black"/>
                     </TouchableOpacity>
                 </View>
             )
@@ -45,8 +70,13 @@ const HomeScreen = ({navigation}) => {
     },[])
     return (
         <SafeAreaView>
-            <ScrollView>
-                <CustomListItem/>
+            <ScrollView style={styles.container}>
+                {
+                    chats.map(({id,data: {chatName}})=>(
+                        <CustomListItem key={id} id={id} chatName={chatName} />
+                        ))
+                }
+                
             </ScrollView>
         </SafeAreaView>
     )
@@ -54,4 +84,8 @@ const HomeScreen = ({navigation}) => {
 
 export default HomeScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container:{
+        height: '100%'
+    }
+})

@@ -1,11 +1,12 @@
 // import * as firebase from "firebase";
-// import "firebase/firestore";
-// import "firebase/auth";
+import "firebase/firestore";
+import "firebase/auth";
+
 
 import firebase from 'firebase/app';
-import "firebase/auth";
+// import "firebase/auth";
 //import "firebase/database";
-import "firebase/firestore";
+// import "firebase/firestore";
 //import "firebase/functions";
 //import "firebase/storage";
 
@@ -31,8 +32,9 @@ if(firebase.apps.length === 0){
 
 }
 
-const db = app.firestore();
+
 const auth = firebase.auth();
+const db = app.firestore();
 
 export {db , auth };
 

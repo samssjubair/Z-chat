@@ -40,7 +40,7 @@ const AddChatScreen = ({navigation}) =>{
                 <Icon name="wechat" type="antdesign" size={24} color="black" />
             }
             />
-            <Button onPress={createChat} title='Create new chat' />
+            <Button type="clear" onPress={createChat} title='Create new chat' />
         </View>
     )
 }
